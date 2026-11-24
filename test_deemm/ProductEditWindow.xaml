@@ -1,0 +1,75 @@
+﻿<Window x:Class="test_deemm.ProductEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Информация о товаре"
+        Height="650" Width="550"
+        WindowStartupLocation="CenterOwner"
+        FontFamily="Times New Roman"
+        Background="White" Icon="/Icon.ico">
+
+    <Grid Margin="25">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="55"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="55"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#7FFF00" Padding="10">
+            <TextBlock Text="ИНФОРМАЦИЯ О ТОВАРЕ"
+                       FontSize="22" FontWeight="Bold"
+                       VerticalAlignment="Center"/>
+        </Border>
+
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Margin="5,15">
+                <TextBlock Text="Артикул"/>
+                <TextBox Name="tbArticle" Height="30" Margin="0,5,0,10"/>
+
+                <TextBlock Text="Название товара"/>
+                <TextBox Name="tbName" Height="30" Margin="0,5,0,10"/>
+
+                <TextBlock Text="Единица измерения"/>
+                <TextBox Name="tbUnit" Height="30" Margin="0,5,0,10"/>
+
+                <TextBlock Text="Цена"/>
+                <TextBox Name="tbPrice" Height="30" Margin="0,5,0,10"/>
+
+                <TextBlock Text="Поставщик"/>
+                <TextBox Name="tbSupplier" Height="30" Margin="0,5,0,10"/>
+
+                <TextBlock Text="Производитель"/>
+                <TextBox Name="tbManufacturer" Height="30" Margin="0,5,0,10"/>
+
+                <TextBlock Text="Категория"/>
+                <ComboBox Name="cbCategory" Height="30" Margin="0,5,0,10">
+                    <ComboBoxItem Content="Женская обувь"/>
+                    <ComboBoxItem Content="Мужская обувь"/>
+                </ComboBox>
+
+                <TextBlock Text="Скидка, %"/>
+                <TextBox Name="tbDiscount" Height="30" Margin="0,5,0,10"/>
+
+                <TextBlock Text="Количество на складе"/>
+                <TextBox Name="tbCount" Height="30" Margin="0,5,0,10"/>
+
+                <TextBlock Text="Описание"/>
+                <TextBox Name="tbDescription" Height="65"
+                         TextWrapping="Wrap" AcceptsReturn="True"
+                         Margin="0,5,0,10"/>
+
+                <TextBlock Text="Путь к фотографии"/>
+                <TextBox Name="tbPhoto" Height="30" Margin="0,5,0,10"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Button Content="Сохранить" Width="110" Height="35"
+                    Margin="5" Background="#00FA9A"
+                    Click="btnSave_Click"/>
+
+            <Button Content="Отмена" Width="100" Height="35"
+                    Margin="5" Click="btnCancel_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

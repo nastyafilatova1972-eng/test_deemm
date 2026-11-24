@@ -1,0 +1,349 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище catalogModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="orders">
+          <Key>
+            <PropertyRef Name="Order_number" />
+          </Key>
+          <Property Name="Order_number" Type="int" Nullable="false" />
+          <Property Name="item_number" Type="nvarchar" MaxLength="50" />
+          <Property Name="Order_date" Type="date" />
+          <Property Name="delivery_date" Type="date" />
+          <Property Name="address_pvz" Type="int" />
+          <Property Name="full_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="code" Type="int" />
+          <Property Name="status" Type="nvarchar" MaxLength="50" />
+          <Property Name="user_id" Type="int" />
+          <Property Name="tovar_id" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Tovar">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="article" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Product_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Unit_measurement" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Price" Type="smallint" Nullable="false" />
+          <Property Name="Supplier" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Manufacturer" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Product_category" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="discount" Type="tinyint" Nullable="false" />
+          <Property Name="Kol_vo_na_sklade" Type="tinyint" Nullable="false" />
+          <Property Name="Product_description" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="photo" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="user_import">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="Employee_role" Type="nvarchar" MaxLength="50" />
+          <Property Name="ful_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="login" Type="nvarchar" MaxLength="50" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Пвз_import">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="postal_code" Type="int" />
+          <Property Name="city" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="street" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="home" Type="int" />
+        </EntityType>
+        <Association Name="FK_orders_Tovar">
+          <End Role="Tovar" Type="Self.Tovar" Multiplicity="0..1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tovar">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="tovar_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_orders_user_import">
+          <End Role="user_import" Type="Self.user_import" Multiplicity="0..1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_import">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_orders_Пвз_import">
+          <End Role="Пвз_import" Type="Self.Пвз_import" Multiplicity="0..1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пвз_import">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="address_pvz" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище catalogModelContainer">
+          <EntitySet Name="orders" EntityType="Self.orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tovar" EntityType="Self.Tovar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_import" EntityType="Self.user_import" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Пвз_import" EntityType="Self.Пвз_import" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_orders_Tovar" Association="Self.FK_orders_Tovar">
+            <End Role="Tovar" EntitySet="Tovar" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_orders_user_import" Association="Self.FK_orders_user_import">
+            <End Role="user_import" EntitySet="user_import" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_orders_Пвз_import" Association="Self.FK_orders_Пвз_import">
+            <End Role="Пвз_import" EntitySet="Пвз_import" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="catalogModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="orders">
+          <Key>
+            <PropertyRef Name="Order_number" />
+          </Key>
+          <Property Name="Order_number" Type="Int32" Nullable="false" />
+          <Property Name="item_number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Order_date" Type="DateTime" Precision="0" />
+          <Property Name="delivery_date" Type="DateTime" Precision="0" />
+          <Property Name="address_pvz" Type="Int32" />
+          <Property Name="full_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="code" Type="Int32" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="user_id" Type="Int32" />
+          <Property Name="tovar_id" Type="Int32" />
+          <NavigationProperty Name="Tovar" Relationship="Self.FK_orders_Tovar" FromRole="orders" ToRole="Tovar" />
+          <NavigationProperty Name="user_import" Relationship="Self.FK_orders_user_import" FromRole="orders" ToRole="user_import" />
+          <NavigationProperty Name="Пвз_import" Relationship="Self.FK_orders_Пвз_import" FromRole="orders" ToRole="Пвз_import" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Tovar">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="article" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Product_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Unit_measurement" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Price" Type="Int16" Nullable="false" />
+          <Property Name="Supplier" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Manufacturer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Product_category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="discount" Type="Byte" Nullable="false" />
+          <Property Name="Kol_vo_na_sklade" Type="Byte" Nullable="false" />
+          <Property Name="Product_description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="photo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="orders" Relationship="Self.FK_orders_Tovar" FromRole="Tovar" ToRole="orders" />
+        </EntityType>
+        <EntityType Name="user_import">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="Employee_role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ful_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="orders" Relationship="Self.FK_orders_user_import" FromRole="user_import" ToRole="orders" />
+        </EntityType>
+        <EntityType Name="Пвз_import">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="postal_code" Type="Int32" />
+          <Property Name="city" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="street" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="home" Type="Int32" />
+          <NavigationProperty Name="orders" Relationship="Self.FK_orders_Пвз_import" FromRole="Пвз_import" ToRole="orders" />
+        </EntityType>
+        <Association Name="FK_orders_Tovar">
+          <End Role="Tovar" Type="Self.Tovar" Multiplicity="0..1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tovar">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="tovar_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_orders_user_import">
+          <End Role="user_import" Type="Self.user_import" Multiplicity="0..1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_import">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_orders_Пвз_import">
+          <End Role="Пвз_import" Type="Self.Пвз_import" Multiplicity="0..1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пвз_import">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="address_pvz" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="catalogEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="orders" EntityType="Self.orders" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Tovar" EntityType="Self.Tovar" />
+          <EntitySet Name="user_import" EntityType="Self.user_import" />
+          <EntitySet Name="Пвз_import" EntityType="Self.Пвз_import" />
+          <AssociationSet Name="FK_orders_Tovar" Association="Self.FK_orders_Tovar">
+            <End Role="Tovar" EntitySet="Tovar" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_orders_user_import" Association="Self.FK_orders_user_import">
+            <End Role="user_import" EntitySet="user_import" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_orders_Пвз_import" Association="Self.FK_orders_Пвз_import">
+            <End Role="Пвз_import" EntitySet="Пвз_import" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище catalogModelContainer" CdmEntityContainer="catalogEntities1">
+          <EntitySetMapping Name="orders">
+            <EntityTypeMapping TypeName="catalogModel.orders">
+              <MappingFragment StoreEntitySet="orders">
+                <ScalarProperty Name="Order_number" ColumnName="Order_number" />
+                <ScalarProperty Name="item_number" ColumnName="item_number" />
+                <ScalarProperty Name="Order_date" ColumnName="Order_date" />
+                <ScalarProperty Name="delivery_date" ColumnName="delivery_date" />
+                <ScalarProperty Name="address_pvz" ColumnName="address_pvz" />
+                <ScalarProperty Name="full_name" ColumnName="full_name" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="tovar_id" ColumnName="tovar_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="catalogModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tovar">
+            <EntityTypeMapping TypeName="catalogModel.Tovar">
+              <MappingFragment StoreEntitySet="Tovar">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="article" ColumnName="article" />
+                <ScalarProperty Name="Product_name" ColumnName="Product_name" />
+                <ScalarProperty Name="Unit_measurement" ColumnName="Unit_measurement" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Supplier" ColumnName="Supplier" />
+                <ScalarProperty Name="Manufacturer" ColumnName="Manufacturer" />
+                <ScalarProperty Name="Product_category" ColumnName="Product_category" />
+                <ScalarProperty Name="discount" ColumnName="discount" />
+                <ScalarProperty Name="Kol_vo_na_sklade" ColumnName="Kol_vo_na_sklade" />
+                <ScalarProperty Name="Product_description" ColumnName="Product_description" />
+                <ScalarProperty Name="photo" ColumnName="photo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_import">
+            <EntityTypeMapping TypeName="catalogModel.user_import">
+              <MappingFragment StoreEntitySet="user_import">
+                <ScalarProperty Name="Employee_role" ColumnName="Employee_role" />
+                <ScalarProperty Name="ful_name" ColumnName="ful_name" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Пвз_import">
+            <EntityTypeMapping TypeName="catalogModel.Пвз_import">
+              <MappingFragment StoreEntitySet="Пвз_import">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="postal_code" ColumnName="postal_code" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="street" ColumnName="street" />
+                <ScalarProperty Name="home" ColumnName="home" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
